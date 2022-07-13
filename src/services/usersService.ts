@@ -1,10 +1,14 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
 import * as usersRepository from './../repositories/usersRepository.js';
 
-import { conflict } from './../middlewares/errorHandlerMiddleware.js';
+import { conflict, notFound, unauthorized } from './../middlewares/errorHandlerMiddleware.js';
 
 export type CreateDataUser = Omit<usersRepository.User, "id">;
+
+dotenv.config();
 
 async function post(user: CreateDataUser){
   const { email, password } = user;
@@ -24,6 +28,27 @@ function hashPassword(password: string){
   return bcrypt.hashSync(password, SALT);
 }
 
+async function authenticate(user: CreateDataUser){
+  const { email, password } = user;
+  const userExist = await usersRepository.findByEmail(email);
+  if(!userExist) throw notFound();
+  if(!comparePassword(password, userExist.password)) throw unauthorized();
+
+  return generateToken({userId: userExist.id});
+}
+
+function comparePassword(password: string, hashPassword: string){
+  return bcrypt.compareSync(password, hashPassword);
+}
+
+function generateToken(userId: {userId: number}){
+  const secretKey = process.env.JWT_TOKEN;
+  const twelveHours = 60*60*12;
+  const config = { expiresIn: twelveHours };
+  return jwt.sign(userId, secretKey, config);
+}
+
 export {
-  post
+  post,
+  authenticate
 }
