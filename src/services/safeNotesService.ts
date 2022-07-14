@@ -1,6 +1,6 @@
 import { SafeNote } from '@prisma/client';
 
-import { conflict } from './../middlewares/errorHandlerMiddleware.js';
+import { conflict, notFound, unauthorized } from './../middlewares/errorHandlerMiddleware.js';
 
 import * as safeNotesRepository from './../repositories/safeNotesRepository.js';
 
@@ -18,7 +18,16 @@ async function list(userId: number){
   return await safeNotesRepository.findManyByUserId(userId);
 }
 
+async function listOne(userId: number, id: number){
+  const safeNote = await safeNotesRepository.findById(id);
+  if(!safeNote) throw notFound();
+  if(safeNote.userId !== userId) throw unauthorized();
+
+  return safeNote;
+}
+
 export {
   create,
-  list
+  list,
+  listOne
 }

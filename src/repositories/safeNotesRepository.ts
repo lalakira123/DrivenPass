@@ -34,8 +34,18 @@ async function findManyByUserId(userId: number){
   return safeNotes;
 }
 
+async function findById(id: number){
+  const safeNote = await prisma.safeNote.findFirst({
+    where: {
+      id
+    }
+  })
+  return safeNote;
+}
+
 export {
   create,
   findByUserIdAndTitle,
-  findManyByUserId
+  findManyByUserId,
+  findById
 }

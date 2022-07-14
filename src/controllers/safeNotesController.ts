@@ -23,3 +23,12 @@ export async function list(req: Request, res: Response){
 
   res.status(200).send(safeNotes);
 }
+
+export async function listOne(req: Request, res: Response){
+  const { id } = req.params;
+  const userId = res.locals.userId;
+
+  const safeNote = await safeNotesService.listOne(userId, Number(id));
+
+  res.status(200).send(safeNote);
+}
