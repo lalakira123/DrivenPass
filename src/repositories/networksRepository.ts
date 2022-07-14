@@ -14,6 +14,16 @@ async function create(network: CreateDataNetwork){
   });
 }
 
+async function list(userId: number){
+  const networks = prisma.network.findMany({
+    where: {
+      userId
+    }
+  });
+  return networks;
+}
+
 export {
-  create
+  create,
+  list
 }

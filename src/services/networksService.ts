@@ -21,6 +21,22 @@ function encryptPassword(password: string){
   return cryptr.encrypt(password);
 }
 
+async function list(userId: number){
+  let networks = await networksRepository.list(userId);
+
+  networks.forEach((network) => {
+    network.password = decryptPassword(network.password);
+  })
+
+  return networks;
+}
+
+function decryptPassword(password: string){
+  const cryptr = new Cryptr(process.env.SECRET_KEY);
+  return cryptr.decrypt(password);
+}
+
 export {
-  create
+  create,
+  list
 }
