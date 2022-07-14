@@ -32,8 +32,17 @@ async function findById(id: number){
   return network;
 }
 
+async function deleteById(id: number){
+  await prisma.network.delete({
+    where: {
+      id
+    }
+  });
+}
+
 export {
   create,
   list,
-  findById
+  findById,
+  deleteById
 }

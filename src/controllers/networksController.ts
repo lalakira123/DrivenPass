@@ -32,3 +32,12 @@ export async function listOne(req: Request, res: Response){
 
   res.status(200).send(network);
 }
+
+export async function deleteOne(req: Request, res: Response){
+  const { id } = req.params;
+  const userId = res.locals.userId;
+
+  await networksService.deleteOne(userId, Number(id));
+
+  res.sendStatus(204);
+}

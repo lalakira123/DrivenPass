@@ -42,8 +42,17 @@ async function listOne(userId: number, id: number){
   return network;
 }
 
+async function deleteOne(userId: number, id: number){
+  const network = await networksRepository.findById(id);
+  if(!network) throw notFound();
+  if(network.userId !== userId) throw unauthorized();
+
+  await networksRepository.deleteById(id);
+}
+
 export {
   create,
   list,
-  listOne
+  listOne,
+  deleteOne
 }
