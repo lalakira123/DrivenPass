@@ -14,6 +14,11 @@ async function create(safeNote: CreateDataSafeNote){
   await safeNotesRepository.create(safeNote);
 }
 
+async function list(userId: number){
+  return await safeNotesRepository.findManyByUserId(userId);
+}
+
 export {
-  create
+  create,
+  list
 }

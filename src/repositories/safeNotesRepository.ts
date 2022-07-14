@@ -25,7 +25,17 @@ async function findByUserIdAndTitle(userId: number, title: string){
   return safeNote;
 }
 
+async function findManyByUserId(userId: number){
+  const safeNotes = await prisma.safeNote.findMany({
+    where: {
+      userId
+    }
+  });
+  return safeNotes;
+}
+
 export {
   create,
-  findByUserIdAndTitle
+  findByUserIdAndTitle,
+  findManyByUserId
 }

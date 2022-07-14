@@ -15,3 +15,11 @@ export async function create(req: Request, res: Response){
 
   res.sendStatus(201);
 }
+
+export async function list(req: Request, res: Response){
+  const userId = res.locals.userId;
+
+  const safeNotes = await safeNotesService.list(userId);
+
+  res.status(200).send(safeNotes);
+}
