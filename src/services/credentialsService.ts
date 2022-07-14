@@ -6,6 +6,8 @@ import { conflict, notFound, unauthorized } from './../middlewares/errorHandlerM
 
 import * as credentialsRepository from './../repositories/credentialsRepository.js';
 
+import { encryptPassword, decryptPassword } from './../utils/serviceUtils.js';
+
 dotenv.config();
 
 export type CreateDataCredential = Omit<Credential, "id">
@@ -23,11 +25,6 @@ async function post(credential: CreateDataCredential){
   await credentialsRepository.post(credential);
 }
 
-function encryptPassword(password: string){
-  const cryptr = new Cryptr(process.env.SECRET_KEY);
-  return cryptr.encrypt(password);
-}
-
 async function list(userId: number){
   const credentials = await credentialsRepository.findManyByUserId(userId);
 
@@ -36,11 +33,6 @@ async function list(userId: number){
   })
 
   return credentials;
-}
-
-function decryptPassword(password: string){
-  const cryptr = new Cryptr(process.env.SECRET_KEY);
-  return cryptr.decrypt(password);
 }
 
 async function listOne(id: number, userId: number){

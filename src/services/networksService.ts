@@ -1,7 +1,8 @@
 import { Network } from "@prisma/client";
-import Cryptr from "cryptr";
 
 import * as networksRepository from './../repositories/networksRepository.js';
+
+import { encryptPassword, decryptPassword } from './../utils/serviceUtils.js';
 
 export type CreateDataNetwork = Omit<Network, "id">;
 
@@ -16,11 +17,6 @@ async function create(network: CreateDataNetwork){
   await networksRepository.create(network);
 }
 
-function encryptPassword(password: string){
-  const cryptr = new Cryptr(process.env.SECRET_KEY);
-  return cryptr.encrypt(password);
-}
-
 async function list(userId: number){
   let networks = await networksRepository.list(userId);
 
@@ -29,11 +25,6 @@ async function list(userId: number){
   })
 
   return networks;
-}
-
-function decryptPassword(password: string){
-  const cryptr = new Cryptr(process.env.SECRET_KEY);
-  return cryptr.decrypt(password);
 }
 
 export {
