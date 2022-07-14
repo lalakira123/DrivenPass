@@ -15,6 +15,7 @@ model User {
   email      String  @unique
   password   String
   credential Credential[] 
+  safeNote   SafeNote[]
 
   @@map("users")
 }
@@ -29,4 +30,14 @@ model Credential {
   password  String 
 
   @@map("credentials")
+}
+
+model SafeNote {
+  id      Int @id @default(autoincrement())
+  userId  Int 
+  user    User @relation(fields: [userId], references: [id])
+  title   String
+  note    String
+
+  @@map("safeNotes")
 }
