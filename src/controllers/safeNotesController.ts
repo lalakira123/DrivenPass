@@ -32,3 +32,12 @@ export async function listOne(req: Request, res: Response){
 
   res.status(200).send(safeNote);
 }
+
+export async function deleteOne(req: Request, res: Response){
+  const { id } = req.params;
+  const userId = res.locals.userId;
+
+  await safeNotesService.deleteOne(userId, Number(id));
+
+  res.sendStatus(204);
+}

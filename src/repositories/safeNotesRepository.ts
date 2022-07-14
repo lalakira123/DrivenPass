@@ -39,13 +39,22 @@ async function findById(id: number){
     where: {
       id
     }
-  })
+  });
   return safeNote;
+}
+
+async function deleteById(id: number){
+  await prisma.safeNote.delete({
+    where: {
+      id
+    }
+  });
 }
 
 export {
   create,
   findByUserIdAndTitle,
   findManyByUserId,
-  findById
+  findById,
+  deleteById
 }

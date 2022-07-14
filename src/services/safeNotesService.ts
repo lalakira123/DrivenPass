@@ -26,8 +26,17 @@ async function listOne(userId: number, id: number){
   return safeNote;
 }
 
+async function deleteOne(userId: number, id: number){
+  const safeNote = await safeNotesRepository.findById(id);
+  if(!safeNote) throw notFound();
+  if(safeNote.userId !== userId) throw unauthorized();
+
+  await safeNotesRepository.deleteById(id);
+}
+
 export {
   create,
   list,
-  listOne
+  listOne,
+  deleteOne
 }
