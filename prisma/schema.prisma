@@ -16,6 +16,7 @@ model User {
   password   String
   credential Credential[] 
   safeNote   SafeNote[]
+  network    Network[]
 
   @@map("users")
 }
@@ -40,4 +41,15 @@ model SafeNote {
   note    String
 
   @@map("safeNotes")
+}
+
+model Network {
+  id        Int @id @default(autoincrement())
+  userId    Int 
+  user      User @relation(fields: [userId], references: [id])
+  title     String
+  name      String
+  password  String 
+
+  @@map("networks")
 }
