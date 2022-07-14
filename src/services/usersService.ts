@@ -1,12 +1,13 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { User } from '@prisma/client';
 
 import * as usersRepository from './../repositories/usersRepository.js';
 
 import { conflict, notFound, unauthorized } from './../middlewares/errorHandlerMiddleware.js';
 
-export type CreateDataUser = Omit<usersRepository.User, "id">;
+export type CreateDataUser = Omit<User, "id">;
 
 dotenv.config();
 
