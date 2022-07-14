@@ -13,7 +13,6 @@ function validateToken(req: Request, res: Response, next: NextFunction){
   jwt.verify(token, secretKey, (error, result: {userId: number}) => {
     if(error) return res.status(401).send({error});
     if(result) {
-      console.log(result.userId);
       res.locals.userId = result.userId;
       next();
     }
