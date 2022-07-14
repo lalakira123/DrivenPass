@@ -1,5 +1,4 @@
 import { Credential } from '@prisma/client';
-import Cryptr from 'cryptr';
 import dotenv from 'dotenv';
 
 import { conflict, notFound, unauthorized } from './../middlewares/errorHandlerMiddleware.js';

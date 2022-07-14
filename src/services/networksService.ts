@@ -1,5 +1,7 @@
 import { Network } from "@prisma/client";
 
+import { notFound, unauthorized } from './../middlewares/errorHandlerMiddleware.js';
+
 import * as networksRepository from './../repositories/networksRepository.js';
 
 import { encryptPassword, decryptPassword } from './../utils/serviceUtils.js';
@@ -27,7 +29,21 @@ async function list(userId: number){
   return networks;
 }
 
+async function listOne(userId: number, id: number){
+  let network = await networksRepository.findById(id);
+  if(!network) throw notFound();
+  if(network.userId !== userId) throw unauthorized();
+
+  network = {
+    ...network,
+    password: decryptPassword(network.password)
+  }
+
+  return network;
+}
+
 export {
   create,
-  list
+  list,
+  listOne
 }

@@ -23,7 +23,17 @@ async function list(userId: number){
   return networks;
 }
 
+async function findById(id: number){
+  const network = prisma.network.findFirst({
+    where: {
+      id
+    }
+  });
+  return network;
+}
+
 export {
   create,
-  list
+  list,
+  findById
 }

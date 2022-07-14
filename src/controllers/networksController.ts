@@ -23,3 +23,12 @@ export async function list(req: Request, res: Response){
 
   res.status(200).send(networks);
 }
+
+export async function listOne(req: Request, res: Response){
+  const { id } = req.params;
+  const userId = res.locals.userId;
+
+  const network = await networksService.listOne(userId, Number(id));
+
+  res.status(200).send(network);
+}
