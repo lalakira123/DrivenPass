@@ -23,3 +23,12 @@ export async function list(req: Request, res: Response){
 
   res.status(200).send(credentials);
 }
+
+export async function listOne(req: Request, res: Response){
+  const { id } = req.params;
+  const userId = res.locals.userId;
+
+  const credential = await credentialsService.listOne(Number(id), userId);
+
+  res.status(200).send(credential);
+}
