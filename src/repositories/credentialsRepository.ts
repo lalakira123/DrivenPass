@@ -28,7 +28,18 @@ async function findByUserIdAndTitle(userId: number, title: string){
   return credential;
 }
 
+async function findManyByUserId(userId: number){
+  const credentials = await prisma.credential.findMany({
+    where: {
+      userId
+    }
+  })
+
+  return credentials;
+}
+
 export {
   post,
-  findByUserIdAndTitle
+  findByUserIdAndTitle,
+  findManyByUserId
 }

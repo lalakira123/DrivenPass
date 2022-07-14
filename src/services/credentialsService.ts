@@ -28,6 +28,22 @@ function encryptPassword(password: string){
   return cryptr.encrypt(password);
 }
 
+async function list(userId: number){
+  const credentials = await credentialsRepository.findManyByUserId(userId);
+
+  credentials.forEach((credential) => {
+    credential.password = decryptPassword(credential.password);
+  })
+
+  return credentials;
+}
+
+function decryptPassword(password: string){
+  const cryptr = new Cryptr(process.env.SECRET_KEY);
+  return cryptr.decrypt(password);
+}
+
 export {
-  post
+  post,
+  list
 }
