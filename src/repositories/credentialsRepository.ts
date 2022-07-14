@@ -12,7 +12,7 @@ async function post(credential: CreateDataCredential){
       url,
       title
     }
-  })
+  });
 }
 
 async function findByUserIdAndTitle(userId: number, title: string){
@@ -32,7 +32,7 @@ async function findManyByUserId(userId: number){
     where: {
       userId
     }
-  })
+  });
   return credentials;
 }
 
@@ -41,13 +41,22 @@ async function findById(id: number){
     where: {
       id
     }
-  })
+  });
   return credential;
+}
+
+async function deleteOne(id: number){
+  await prisma.credential.delete({
+    where: {
+      id
+    }
+  });
 }
 
 export {
   post,
   findByUserIdAndTitle,
   findManyByUserId,
-  findById
+  findById,
+  deleteOne
 }

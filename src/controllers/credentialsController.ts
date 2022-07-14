@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { request, Request, Response } from 'express';
 
 import * as credentialsService from './../services/credentialsService.js';
 
@@ -31,4 +31,13 @@ export async function listOne(req: Request, res: Response){
   const credential = await credentialsService.listOne(Number(id), userId);
 
   res.status(200).send(credential);
+}
+
+export async function deleteOne(req: Request, res: Response){
+  const { id } = req.params;
+  const userId = res.locals.userId;
+
+  await credentialsService.deleteOne(Number(id), userId);
+
+  res.sendStatus(204);
 }

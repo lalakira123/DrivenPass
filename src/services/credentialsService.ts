@@ -53,8 +53,17 @@ async function listOne(id: number, userId: number){
   return credential;
 }
 
+async function deleteOne(id: number, userId: number){
+  const credential = await credentialsRepository.findById(id);
+  if(!credential) throw notFound();
+  if(credential.userId !== userId) throw unauthorized();
+
+  await credentialsRepository.deleteOne(id);
+}
+
 export {
   post,
   list,
-  listOne
+  listOne,
+  deleteOne
 }
