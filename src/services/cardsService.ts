@@ -48,8 +48,17 @@ async function listOne(userId: number, id: number){
   return card;
 }
 
+async function deleteOne(userId: number, id: number){
+  const card = await cardsRepository.findById(id);
+  if(!card) throw notFound();
+  if(card.userId !== userId) throw unauthorized();
+
+  await cardsRepository.deleteById(id);
+}
+
 export {
   create,
   list,
-  listOne
+  listOne,
+  deleteOne
 }

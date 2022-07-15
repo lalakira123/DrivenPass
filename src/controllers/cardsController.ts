@@ -32,3 +32,12 @@ export async function listOne(req: Request, res: Response){
 
   res.status(200).send(card);
 }
+
+export async function deleteOne(req: Request, res: Response){
+  const id: number = Number(req.params.id);
+  const userId: number = res.locals.userId;
+
+  await cardsService.deleteOne(userId, id);
+
+  res.sendStatus(204);
+}

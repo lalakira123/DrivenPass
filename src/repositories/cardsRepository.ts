@@ -57,9 +57,18 @@ async function findById(id: number){
   return card;
 }
 
+async function deleteById(id: number){
+  await prisma.card.delete({
+    where: {
+      id
+    }
+  });
+}
+
 export {
   create, 
   findByUserIdAndTitle,
   findManyByUserId,
-  findById
+  findById,
+  deleteById
 }
