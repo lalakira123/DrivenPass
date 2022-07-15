@@ -23,3 +23,12 @@ export async function list(req: Request, res: Response){
 
   res.status(200).send(cards);
 }
+
+export async function listOne(req: Request, res: Response){
+  const id: number = Number(req.params.id);
+  const userId: number = res.locals.userId;
+
+  const card = await cardsService.listOne(userId, id);
+
+  res.status(200).send(card);
+}

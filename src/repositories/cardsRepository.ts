@@ -48,8 +48,18 @@ async function findManyByUserId(userId: number){
   return cards;
 }
 
+async function findById(id: number){
+  const card = prisma.card.findFirst({
+    where: {
+      id
+    }
+  });
+  return card;
+}
+
 export {
   create, 
   findByUserIdAndTitle,
-  findManyByUserId
+  findManyByUserId,
+  findById
 }

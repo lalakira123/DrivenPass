@@ -1,6 +1,6 @@
 import { Card } from '@prisma/client';
 
-import { conflict } from './../middlewares/errorHandlerMiddleware.js';
+import { conflict, notFound, unauthorized } from './../middlewares/errorHandlerMiddleware.js';
 
 import { encryptPassword, decryptPassword } from './../utils/serviceUtils.js';
 
@@ -34,7 +34,22 @@ async function list(userId: number){
   return cards;
 }
 
+async function listOne(userId: number, id: number){
+  let card = await cardsRepository.findById(id);
+  if(!card) throw notFound();
+  if(card.userId !== userId) throw unauthorized();
+
+  card = {
+    ...card,
+    password: decryptPassword(card.password),
+    securityCode: decryptPassword(card.securityCode)
+  }
+
+  return card;
+}
+
 export {
   create,
-  list
+  list,
+  listOne
 }
