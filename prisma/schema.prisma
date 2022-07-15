@@ -17,6 +17,7 @@ model User {
   credential Credential[] 
   safeNote   SafeNote[]
   network    Network[]
+  card       Card[]
 
   @@map("users")
 }
@@ -52,4 +53,20 @@ model Network {
   password  String 
 
   @@map("networks")
+}
+
+model Card {
+  id            Int @id @default(autoincrement())
+  userId        Int 
+  user          User @relation(fields: [userId], references: [id])
+  title         String
+  cardNumber    String
+  name          String
+  securityCode  String 
+  expirateDate  String
+  password      String
+  isVirtual     Boolean
+  type          String 
+
+  @@map("cards")
 }
